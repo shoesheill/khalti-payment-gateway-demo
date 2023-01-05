@@ -1,0 +1,18 @@
+﻿@{
+	ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+	<h1 class="display-4">Welcome</h1>
+	<p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+<form method="post">
+	<p>Pay With Khalti</p>
+	<input class="img-payment-method" type="image" src="./img/Khalti logo.png" alt="Pay with Khalti" asp-controller="Home"
+		   asp-action="PayWithKhalti">
+</form>
+
+@if (ViewBag.Message != null)
+{
+	<label>@ViewBag.Message </label>
+}

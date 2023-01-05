@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32901.215
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Khalti-Payment-Gateway-Demo", "Khalti-Payment-Gateway-Demo\Khalti-Payment-Gateway-Demo.csproj", "{4E01EA96-5164-4DD3-A340-BA06DF92C92B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4E01EA96-5164-4DD3-A340-BA06DF92C92B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E01EA96-5164-4DD3-A340-BA06DF92C92B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E01EA96-5164-4DD3-A340-BA06DF92C92B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E01EA96-5164-4DD3-A340-BA06DF92C92B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8AB5BDEA-E43B-40B0-A5F2-C0F4225AE98E}
+	EndGlobalSection
+EndGlobal
