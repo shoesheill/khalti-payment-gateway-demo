@@ -1,4 +1,4 @@
-name: publish
+name: Publish 🚀
 
 on:
   workflow_dispatch:
@@ -9,22 +9,20 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
-
+    
     steps:
       - uses: actions/checkout@v3
-
+      
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '6.0.x'
-
+          
       - name: Restore
         run: dotnet restore ./Khalti-Payment-Gateway-Demo.sln
-
+        
       - name: Build
-        run: dotnet build ./Khalti-Payment-gateway-Demo.sln --configuration Release --no-restore
-
+        run: dotnet build ./Khalti-Payment-Gateway-Demo.sln --configuration Release --no-restore
+        
       - name: Publish
         run: dotnet publish ./Khalti-Payment-Gateway-Demo.sln --configuration Release --no-build
-        
-      
