@@ -54,4 +54,4 @@ jobs:
           app-name: 'kpg'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_48268F83E0944BD6889FD53E9784FB26 }}
-          package: .
+          package: ${{ github.workspace }}/Khalti-Payment-Gateway-Demo
