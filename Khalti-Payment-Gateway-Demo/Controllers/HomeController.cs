@@ -9,8 +9,8 @@ namespace Khalti_Payment_Gateway_Demo.Controllers
 	public class HomeController : Controller
 	{
 		private readonly ILogger<HomeController> _logger;
-		private readonly string k_secretKey = "live_secret_key_68791341fdd94846a146f0457ff7b455";
-		private readonly string e_secretKey = "8gBm/:&EnhH.1/q";
+		private readonly string Khalti_SecretKey = "live_secret_key_68791341fdd94846a146f0457ff7b455";
+		private readonly string eSewa_SecretKey = "8gBm/:&EnhH.1/q";
 		private readonly bool sandBoxMode = true;
 
 		public HomeController(ILogger<HomeController> logger)
@@ -34,7 +34,7 @@ namespace Khalti_Payment_Gateway_Demo.Controllers
 		public async Task<ActionResult> PayWithKhalti()
 		{
 			string currentUrl = new Uri($"{Request.Scheme}://{Request.Host}").AbsoluteUri;
-			PaymentManager paymentManager = new PaymentManager(PaymentMethod.Khalti, PaymentVersion.v2, PaymentMode.Sandbox, k_secretKey);
+			PaymentManager paymentManager = new PaymentManager(PaymentMethod.Khalti, PaymentVersion.v2, PaymentMode.Sandbox, Khalti_SecretKey);
 			dynamic request = new
 			{
 				return_url = currentUrl,
@@ -42,30 +42,30 @@ namespace Khalti_Payment_Gateway_Demo.Controllers
 				amount = 1300,
 				purchase_order_id = "test12",
 				purchase_order_name = "test",
-				customer_info = new k_customer_info
+				customer_info = new KhaltiCustomerInfo()
 				{
 					name = "Sushil Shreshta",
 					email = "shoesheill@gmail.com",
 					phone = "9846000027"
 				},
-				product_details = new List<k_product_detail>
+				product_details = new List<KhaltiProductDetail>
 				{
-					new k_product_detail{identity= "1234567890", name= "Khalti logo", total_price= 1300, quantity= 1,unit_price= 1300 }
+					new KhaltiProductDetail(){identity= "1234567890", name= "Khalti logo", total_price= 1300, quantity= 1,unit_price= 1300 }
 				},
-				amount_breakdown = new List<k_amount_breakdown>
+				amount_breakdown = new List<KhaltiAmountBreakdown>
 				{
-					new k_amount_breakdown{ label= "Mark Price",amount=1000 },
-					new k_amount_breakdown{label="VAT", amount=300 }
+					new KhaltiAmountBreakdown(){ label= "Mark Price",amount=1000 },
+					new KhaltiAmountBreakdown(){label="VAT", amount=300 }
 				}
 			};
 			ApiResponse response = await paymentManager.ProcessPayment<ApiResponse>(request);
-			k_init_response k_Init_Response = JsonConvert.DeserializeObject<k_init_response>(JsonConvert.SerializeObject(response.data));
+			KhaltiInitResponse k_Init_Response = JsonConvert.DeserializeObject<KhaltiInitResponse>(JsonConvert.SerializeObject(response.data));
 			return Redirect(k_Init_Response.payment_url);
 		}
 		private async Task<ActionResult> VerifyPayment(string pidx)
 		{
-			PaymentManager paymentManager = new PaymentManager(PaymentMethod.Khalti, PaymentVersion.v2, PaymentMode.Sandbox, k_secretKey);
-			k_response response = await paymentManager.VerifyPayment<k_response>(pidx);
+			PaymentManager paymentManager = new PaymentManager(PaymentMethod.Khalti, PaymentVersion.v2, PaymentMode.Sandbox, Khalti_SecretKey);
+			KhaltiResponse response = await paymentManager.VerifyPayment<KhaltiResponse>(pidx);
 			if (response != null && response.status != null) //
 				if (response != null && !string.IsNullOrEmpty(response.status) && string.Equals(response.status, "completed", StringComparison.OrdinalIgnoreCase))
 				{
@@ -83,7 +83,7 @@ namespace Khalti_Payment_Gateway_Demo.Controllers
 
 		public async Task<IActionResult> PayWitheSewa()
 		{
-			PaymentManager paymentManager = new PaymentManager(PaymentMethod.eSewa, PaymentVersion.v2, PaymentMode.Sandbox, e_secretKey);
+			PaymentManager paymentManager = new PaymentManager(PaymentMethod.eSewa, PaymentVersion.v2, PaymentMode.Sandbox, eSewa_SecretKey);
 			string currentUrl = new Uri($"{Request.Scheme}://{Request.Host}").AbsoluteUri;
 			dynamic request = new
 			{
