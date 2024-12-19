@@ -58,14 +58,14 @@ namespace Khalti_Payment_Gateway_Demo.Controllers
 					new KhaltiAmountBreakdown(){label="VAT", amount=300 }
 				}
 			};
-			ApiResponse response = await paymentManager.ProcessPayment<ApiResponse>(request);
+			ApiResponse response = await paymentManager.InitiatePaymentAsync<ApiResponse>(request);
 			KhaltiInitResponse k_Init_Response = JsonConvert.DeserializeObject<KhaltiInitResponse>(JsonConvert.SerializeObject(response.data));
 			return Redirect(k_Init_Response.payment_url);
 		}
 		private async Task<ActionResult> VerifyPayment(string pidx)
 		{
 			PaymentManager paymentManager = new PaymentManager(PaymentMethod.Khalti, PaymentVersion.v2, PaymentMode.Sandbox, Khalti_SecretKey);
-			KhaltiResponse response = await paymentManager.VerifyPayment<KhaltiResponse>(pidx);
+			KhaltiResponse response = await paymentManager.VerifyPaymentAsync<KhaltiResponse>(pidx);
 			if (response != null && response.status != null) //
 				if (response != null && !string.IsNullOrEmpty(response.status) && string.Equals(response.status, "completed", StringComparison.OrdinalIgnoreCase))
 				{
@@ -98,7 +98,7 @@ namespace Khalti_Payment_Gateway_Demo.Controllers
 				FailureUrl = currentUrl,
 				SignedFieldNames = "total_amount,transaction_uuid,product_code",
 			};
-			var response = await paymentManager.ProcessPayment<ApiResponse>(request);
+			var response = await paymentManager.InitiatePaymentAsync<ApiResponse>(request);
 			return Redirect(response.data);
 		}
 		[ProducesResponseType(StatusCodes.Status200OK)]
@@ -106,7 +106,7 @@ namespace Khalti_Payment_Gateway_Demo.Controllers
 		public async Task<ActionResult> VerifyEsewaPayment(string data)
 		{
 			PaymentManager paymentManager = new PaymentManager(PaymentMethod.eSewa, PaymentVersion.v2, PaymentMode.Sandbox, string.Empty);
-			eSewaResponse response = await paymentManager.VerifyPayment<eSewaResponse>(data);
+			eSewaResponse response = await paymentManager.VerifyPaymentAsync<eSewaResponse>(data);
 			if (!string.IsNullOrEmpty(nameof(response)) && string.Equals(response.status, "complete", StringComparison.OrdinalIgnoreCase))
 			{
 				ViewBag.Message = string.Format($"Payment with eSewa completed successfully with data: {response.transaction_code} and amount: {response.total_amount}");

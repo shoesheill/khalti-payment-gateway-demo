@@ -76,7 +76,7 @@ public async Task<IActionResult> PayWitheSewa()
         SignedFieldNames = "total_amount,transaction_uuid,product_code",
     };
 
-    var response = await paymentManager.ProcessPayment<ApiResponse>(request);
+    var response = await paymentManager.InitiatePaymentAsync<ApiResponse>(request);
     return Redirect(response.data);
 }
 ```
@@ -95,7 +95,7 @@ public async Task<IActionResult> VerifyEsewaPayment(string data)
         string.Empty
     );
 
-    eSewaResponse response = await paymentManager.VerifyPayment<eSewaResponse>(data);
+    eSewaResponse response = await paymentManager.VerifyPaymentAsync<eSewaResponse>(data);
 
     if (!string.IsNullOrEmpty(nameof(response)) && 
         string.Equals(response.status, "complete", StringComparison.OrdinalIgnoreCase))
@@ -162,7 +162,7 @@ public async Task<ActionResult> PayWithKhalti()
         }
     };
 
-    ApiResponse response = await paymentManager.ProcessPayment<ApiResponse>(request);
+    ApiResponse response = await paymentManager.InitiatePaymentAsync<ApiResponse>(request);
     KhaltiInitResponse k_Init_Response = JsonConvert.DeserializeObject<KhaltiInitResponse>(JsonConvert.SerializeObject(response.data));
     return Redirect(k_Init_Response.payment_url);
 }
@@ -182,7 +182,7 @@ private async Task<ActionResult> VerifyPayment(string pidx)
         Khalti_SecretKey
     );
 
-    KhaltiResponse response = await paymentManager.VerifyPayment<KhaltiResponse>(pidx);
+    KhaltiResponse response = await paymentManager.VerifyPaymentAsync<KhaltiResponse>(pidx);
 
     if (response != null && string.Equals(response.status, "completed", StringComparison.OrdinalIgnoreCase))
     {
